@@ -1,14 +1,11 @@
 require('dotenv').config();
 //express allows us to to do paths
 const express = require('express');
-//tells this app to run express!
-
 //use superagent to hit api... npm i superagent (async/await)
 const request = require('superagent');
 const port = process.env.PORT || 3000;
 const cors = require('cors');
 const app = express();
-
 
 app.use(cors());
 
@@ -32,7 +29,7 @@ app.get('/location', async(req, respond, next) => {
 
         //update the global state of lat and long so it is accessible in other routes
         lat = firstResult.lat;
-        lng = firstResult.log;
+        lng = firstResult.lon;
     
         respond.json({
             formated_query: firstResult.display_name,
@@ -49,7 +46,6 @@ app.get('/weather', async(req, res, next) => {
     //use the lat and long from earlier to get weather data for the selected area
     try {
         const portlandWeather = await getWeatherData(lat, lng);
-         
     //respond with json in the appropriate form
         res.json(portlandWeather);
     } catch (err) {
@@ -57,11 +53,9 @@ app.get('/weather', async(req, res, next) => {
     }
 });
 
-
 app.get('*', (req, res) => {
     res.send('404 error... you done goofed...');
 });
-
 
 const getWeatherData = async(lat, lng) => {
     const URL = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${lat},${lng}`;
@@ -72,7 +66,7 @@ const getWeatherData = async(lat, lng) => {
             forecast: forecast.summary,
             time: new Date(forecast.time * 1000),
         };
-    })
+    });
 };
 //must remove when starting test
 app.listen(port, () => console.log('running...'));
