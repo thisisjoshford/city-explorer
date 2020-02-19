@@ -1,11 +1,15 @@
+require('dotenv').config();
 //express allows us to to do paths
 const express = require('express');
-//get the json data and put that in geoData
-const geoData = require('./geo.json');
 //tells this app to run express!
 const weather = require('./darksky.json');
-//turns this killer app into express
+//use superagent to hit api... npm i superagent (async/await)
+const request = require('superagent');
+const cors = require('cors');
 const app = express();
+
+
+app.use(cors());
 
 //initialize the global state of late and long so its accessable in other routes
 let lat;
@@ -13,23 +17,40 @@ let lng;
 
 // make sure your routes are in ORDER!!!!  ie 404 at the end
 
-app.get('/location', (request, respond) => {
-    //look at the query params and location
-    const location = request.query.search; 
-    //will use when we actually hit api
-    console.log('using location...', location);
+// middleware   -- you have a request 
+// app.use((req, res, next) => {
+//     req.josh = 'hi its josh';
+//     req.params;
+//     req.query;
+//     req.body;
+// });
 
-    const cityData = geoData.results[0];
-    //update the global state of lat and long so it is accessible in other routes
-    lat = cityData.geometry.location.lat;
-    lng = cityData.geometry.location.lng;
-   
-    respond.json({
-        formated_query: cityData.formatted_address,
-        latitude: cityData.geometry.location.lat,
-        longitude: cityData.geometry.location.lng
 
-    });
+app.get('/location', async(req, respond, next) => {
+    try { //look at the query params and location
+        const location = req.query.search; 
+        //will use when we actually hit api
+        console.log('using location...', location);
+
+        //hide the key
+        const URL = `https://us1.locationiq.com/v1/search.php?key=${process.env.GEOCODE_API_KEY}&q=${location}&format=json`;
+        const locationData = await request.get(URL);
+        //when you make a fetch, use .body property
+        const firstResult = locationData.body[0];
+
+        //update the global state of lat and long so it is accessible in other routes
+        lat = firstResult.lat;
+        lng = firstResult.log;
+    
+        respond.json({
+            formated_query: firstResult.display_name,
+            latitude: lat,
+            longitude: lng,
+
+        });
+    } catch (err) {
+        next(err);
+    }
 });
 
 app.get('/weather', (req, res) => {
@@ -39,6 +60,8 @@ app.get('/weather', (req, res) => {
     //respond with json in the appropriate form
     res.json(portlandWeather);
 });
+
+
 app.get('*', (req, res) => {
     res.send('404 error... you done goofed...');
 });
@@ -54,4 +77,4 @@ const getWeatherData = (lat, lng) => {
 };
 
 //must remove when starting test
-app.listen(3001, () => console.log('running...'));
+app.listen(3000, () => console.log('running...'));
