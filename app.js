@@ -5,6 +5,7 @@ const express = require('express');
 const weather = require('./darksky.json');
 //use superagent to hit api... npm i superagent (async/await)
 const request = require('superagent');
+const port = process.env.PORT || 3000;
 const cors = require('cors');
 const app = express();
 
@@ -75,6 +76,5 @@ const getWeatherData = (lat, lng) => {
         };
     })
 };
-
 //must remove when starting test
-app.listen(3000, () => console.log('running...'));
+app.listen(port, () => console.log('running...'));
