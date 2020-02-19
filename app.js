@@ -4,7 +4,7 @@ const express = require('express');
 const geoData = require('./geo.json');
 //tells this app to run express!
 const weather = require('./darksky.json');
-
+//turns this killer app into express
 const app = express();
 
 //initialize the global state of late and long so its accessable in other routes
