@@ -2,7 +2,7 @@ require('dotenv').config();
 //express allows us to to do paths
 const express = require('express');
 //tells this app to run express!
-const weather = require('./darksky.json');
+
 //use superagent to hit api... npm i superagent (async/await)
 const request = require('superagent');
 const port = process.env.PORT || 3000;
@@ -17,15 +17,6 @@ let lat;
 let lng;
 
 // make sure your routes are in ORDER!!!!  ie 404 at the end
-
-// middleware   -- you have a request 
-// app.use((req, res, next) => {
-//     req.josh = 'hi its josh';
-//     req.params;
-//     req.query;
-//     req.body;
-// });
-
 
 app.get('/location', async(req, respond, next) => {
     try { //look at the query params and location
@@ -54,12 +45,16 @@ app.get('/location', async(req, respond, next) => {
     }
 });
 
-app.get('/weather', (req, res) => {
+app.get('/weather', async(req, res, next) => {
     //use the lat and long from earlier to get weather data for the selected area
-    const portlandWeather = getWeatherData(/*lat*lng*/);
-
+    try {
+        const portlandWeather = await getWeatherData(lat, lng);
+         
     //respond with json in the appropriate form
-    res.json(portlandWeather);
+        res.json(portlandWeather);
+    } catch (err) {
+        next (err);
+    }
 });
 
 
@@ -68,8 +63,11 @@ app.get('*', (req, res) => {
 });
 
 
-const getWeatherData = (lat, lng) => {
-    return weather.daily.data.map(forecast => {
+const getWeatherData = async(lat, lng) => {
+    const URL = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${lat},${lng}`;
+    const weather = await request.get(URL);
+
+    return weather.body.daily.data.map(forecast => {
         return {
             forecast: forecast.summary,
             time: new Date(forecast.time * 1000),
