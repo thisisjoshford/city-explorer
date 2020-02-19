@@ -18,7 +18,7 @@ app.get('/location', (request, respond) => {
     const location = request.query.search; 
     //will use when we actually hit api
     console.log('using location...', location);
-
+    //set some static data to test yo!
     const cityData = geoData.results[0];
     //update the global state of lat and long so it is accessible in other routes
     lat = cityData.geometry.location.lat;
