@@ -77,6 +77,37 @@ app.get('/yelp', async(req, res, next) => {
     }
 });
 
+app.get('/trails', async(req, res, next) => {
+    //use the lat and long from earlier to get weather data for the selected area
+    try {
+        const hikingData = await request
+            .get(`https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${lng}&maxDistance=10&key=${process.env.HIKING_PROJECT_KEY}`);
+
+        const results = hikingData.body.trails.map(hike => {
+            const dateArray = hike.conditionDate.split(" ");
+            const date = dateArray[0];
+            const time = dateArray[1];
+
+            return {
+                name: hike.name,
+                location: hike.location,
+                length: hike.length,
+                stars: hike.stars,
+                star_votes: hike.star_votes,
+                summary: hike.summary,
+                trail_url: hike.url,
+                conditions: hike.conditionStatus,
+                condition_date: date,
+                condition_time: time,
+            };
+            
+        });
+
+        res.json({ results });
+    } catch (err) {
+        next (err);
+    }
+});
 app.get('*', (req, res) => {
     res.send('404 error... you done goofed...');
 });
