@@ -59,7 +59,7 @@ app.get('/yelp', async(req, res, next) => {
         const yelpData = await request
             .get(`https://api.yelp.com/v3/businesses/search?term=restaurants&latitude=${lat}&longitude=${lng}`)
             .set('Authorization', `Bearer ${process.env.YELP_API_KEY}`);
-        res.json(yelpData);
+        res.json(yelpData.body);
     } catch (err) {
         next (err);
     }
