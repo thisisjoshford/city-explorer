@@ -32,7 +32,7 @@ app.get('/location', async(req, respond, next) => {
         lng = firstResult.lon;
     
         respond.json({
-            formated_query: firstResult.display_name,
+            formatted_query: firstResult.display_name,
             latitude: lat,
             longitude: lng,
 
@@ -160,5 +160,9 @@ const getWeatherData = async(lat, lng) => {
         };
     });
 };
+
+module.exports = {
+    app: app,
+};
 //must remove when starting test
-app.listen(port, () => console.log('running...'));
+// app.listen(port, () => console.log('running...'));
