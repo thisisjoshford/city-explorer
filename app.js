@@ -53,6 +53,18 @@ app.get('/weather', async(req, res, next) => {
     }
 });
 
+app.get('/yelp', async(req, res, next) => {
+    //use the lat and long from earlier to get weather data for the selected area
+    try {
+        const yelpData = await request
+            .get(`https://api.yelp.com/v3/businesses/search?term=restaurants&latitude=${lat}&longitude=${lng}`)
+            .set('Authorization', `Bearer ${process.env.YELP_API_KEY}`);
+        res.json(yelpData);
+    } catch (err) {
+        next (err);
+    }
+});
+
 app.get('*', (req, res) => {
     res.send('404 error... you done goofed...');
 });
