@@ -108,6 +108,39 @@ app.get('/trails', async(req, res, next) => {
         next (err);
     }
 });
+
+app.get('/events', async(req, res, next) => {
+//use the lat and long from earlier to get weather data for the selected area
+    try {
+        const eventData = await request
+            .get(`http://api.eventful.com/json/events/search?app_key=${process.env.EVENT_API_KEY}&where=${lat},${lng}&within=25&page_size=20&page_number=1`);
+        
+        const nearbyEvents = JSON.parse(eventData.text);
+        const totalEvents = nearbyEvents.total_items;
+        const pageSize = nearbyEvents.page_size;
+        const totalPages = nearbyEvents.page_count;
+
+        const results = nearbyEvents.events.event.map(event => {
+        
+            return {
+                name: event.title,
+                url: event.url,
+                city: event.city_name,
+                date_time: event.start_time,
+                venue_name: event.venue_name,
+                venue_address: event.venue_address,
+                venue_url: event.venue_url
+            };
+            
+        });
+
+        res.json({ totalEvents, pageSize, totalPages, results });
+    } catch (err) {
+        next (err);
+    }
+});
+
+
 app.get('*', (req, res) => {
     res.send('404 error... you done goofed...');
 });
