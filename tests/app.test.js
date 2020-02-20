@@ -8,7 +8,7 @@ describe('testing all paths', () => {
             // feed our express app to the supertest request
             const response = await request(app)
                 // and hit out express app's about route with a /GET
-                .get('/location/');
+                .get('/location?search=Portland');
             // check to see if the response is what we expect
             expect(response.body).toEqual({
                 formatted_query: expect.any(String),
@@ -66,4 +66,25 @@ describe('testing all paths', () => {
             // the callback has a 'done' that we can call to fix stuff :sparkle-emoji:
             done();
         });
+    test('test yelp',
+    // get the done function to call after the test
+        async(done) => {
+            // feed our express app to the supertest request
+            const response = await request(app)
+                // and hit out express app's about route with a /GET
+                .get('/yelp/');
+            // check to see if the response is what we expect
+            expect(response.body.results[0]).toEqual({
+                name: expect.any(String),
+                image_url: expect.any(String),
+                price: expect.any(String),
+                rating: expect.any(Number),
+                url: expect.any(String)
+            });
+            // it should have a status of 200
+            expect(response.statusCode).toBe(200);
+            // the callback has a 'done' that we can call to fix stuff :sparkle-emoji:
+            done();
+        });
+
 });
