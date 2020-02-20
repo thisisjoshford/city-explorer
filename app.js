@@ -121,12 +121,16 @@ app.get('/events', async(req, res, next) => {
         const totalPages = nearbyEvents.page_count;
 
         const results = nearbyEvents.events.event.map(event => {
+            const dateArray = event.start_time.split(" ");
+            const date = dateArray[0];
+            const time = dateArray[1];
         
             return {
                 name: event.title,
                 url: event.url,
                 city: event.city_name,
-                date_time: event.start_time,
+                date: date,
+                time: time,
                 venue_name: event.venue_name,
                 venue_address: event.venue_address,
                 venue_url: event.venue_url
