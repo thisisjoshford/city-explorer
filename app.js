@@ -142,9 +142,8 @@ app.get('/events', async(req, res, next) => {
     }
 });
 
-
 app.get('*', (req, res) => {
-    res.send('404 error... you done goofed! ');
+    res.send('404 error... ಠ_ಠ  you done goofed! (ง •̀_•́)ง ');
 });
 
 const getWeatherData = async(lat, lng) => {
