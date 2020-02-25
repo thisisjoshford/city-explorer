@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 //use superagent to hit api... npm i superagent (async/await)
 const request = require('superagent');
-const port = process.env.PORT || 3000;
 const cors = require('cors');
 const app = express();
 
