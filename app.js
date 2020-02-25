@@ -5,7 +5,6 @@ const express = require('express');
 const request = require('superagent');
 const cors = require('cors');
 const app = express();
-
 app.use(cors());
 
 //initialize the global state of late and long so its accessable in other routes
@@ -145,7 +144,7 @@ app.get('/events', async(req, res, next) => {
 
 
 app.get('*', (req, res) => {
-    res.send('404 error... ಠ_ಠ  you done goofed! (ง •̀_•́)ง ');
+    res.send('404 error... you done goofed! ');
 });
 
 const getWeatherData = async(lat, lng) => {
