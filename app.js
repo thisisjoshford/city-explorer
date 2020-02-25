@@ -164,5 +164,3 @@ const getWeatherData = async(lat, lng) => {
 module.exports = {
     app: app,
 };
-//must remove when starting test
-// app.listen(port, () => console.log('running...'));
