@@ -29,11 +29,10 @@
     "jest": "^25.1.0",
     "supertest": "^4.0.2"
   },
-
-"jest": {
-  "testEnvironment": "node",
-  "coveragePathIgnorePatterns": [
-    "/node_modules/"
-  ]
-}
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
 }
