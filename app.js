@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
-//initialize the global state of late and long so its accessable in other routes
+//initialize the global state of late and long so its accessible in other routes
 let lat;
 let lng;
 
