@@ -74,13 +74,25 @@ const getWeatherData = async(lat, lng, request) => {
     const weather = await request.get(URL);
 
     return weather.body.daily.data.map(forecast => {
+        const date = new Date(forecast.time * 1000);
+        const day = date.getUTCDay();
+
+        let dayOfWeek;
+        if (day === 0) dayOfWeek = 'Sunday';
+        if (day === 1) dayOfWeek = 'Monday';
+        if (day === 2) dayOfWeek = 'Tuesday';
+        if (day === 3) dayOfWeek = 'Wednesday';
+        if (day === 4) dayOfWeek = 'Thursday';
+        if (day === 5) dayOfWeek = 'Friday';
+        if (day === 6) dayOfWeek = 'Saturday';
+
         return {
             high: forecast.temperatureHigh,
             low: forecast.temperatureLow,
             precipitation: forecast.precipProbability,
             icon: forecast.icon,
             summary: forecast.summary,
-            time: forecast.time,
+            time: dayOfWeek
         };
     });
 };
