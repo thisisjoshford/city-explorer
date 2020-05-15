@@ -78,13 +78,13 @@ const getWeatherData = async(lat, lng, request) => {
         const day = date.getUTCDay();
 
         let dayOfWeek;
-        if (day === 0) dayOfWeek = 'Sunday';
-        if (day === 1) dayOfWeek = 'Monday';
-        if (day === 2) dayOfWeek = 'Tuesday';
-        if (day === 3) dayOfWeek = 'Wednesday';
-        if (day === 4) dayOfWeek = 'Thursday';
-        if (day === 5) dayOfWeek = 'Friday';
-        if (day === 6) dayOfWeek = 'Saturday';
+        if (day === 0) dayOfWeek = 'Sun';
+        if (day === 1) dayOfWeek = 'Mon';
+        if (day === 2) dayOfWeek = 'Tue';
+        if (day === 3) dayOfWeek = 'Wed';
+        if (day === 4) dayOfWeek = 'Thur';
+        if (day === 5) dayOfWeek = 'Fri';
+        if (day === 6) dayOfWeek = 'Sat';
 
         return {
             high: forecast.temperatureHigh,
