@@ -6,7 +6,7 @@ const app = express();
 require('dotenv').config();
 app.use(cors());
 
-let lat;
+let lat;  
 let lng;
 
 app.get('/location', async(req, respond, next) => {
@@ -19,18 +19,18 @@ app.get('/location', async(req, respond, next) => {
         lng = res.lon;
 
         const weather = await services.getWeatherData(lat, lng, request);
-        const yelpData = await services.getYelpData(lat, lng, request);
-        const eventData = await services.getEvents(lat, lng, request);
-        const trailData = await services.getTrails(lat, lng, request);
+        const yelp = await services.getYelpData(lat, lng, request);
+        const events = await services.getEvents(lat, lng, request);
+        const trails = await services.getTrails(lat, lng, request);
     
         respond.json({
             city: res.display_name,
-            latitude: lat,
-            longitude: lng,
+            lat,
+            lng,
             weather,
-            yelpData,
-            eventData,
-            trailData
+            yelp,
+            events,
+            trails
         });
     } catch (err) {
         next(err);
