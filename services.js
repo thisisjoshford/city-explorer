@@ -89,7 +89,7 @@ const getWeatherData = async(lat, lng, request) => {
         return {
             high: forecast.temperatureHigh,
             low: forecast.temperatureLow,
-            precipitation: forecast.precipProbability,
+            precip: forecast.precipProbability,
             icon: forecast.icon,
             summary: forecast.summary,
             time: dayOfWeek
