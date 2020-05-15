@@ -24,7 +24,7 @@ app.get('/location', async(req, respond, next) => {
         const trailData = await services.getTrails(lat, lng, request);
     
         respond.json({
-            formatted_query: res.display_name,
+            city: res.display_name,
             latitude: lat,
             longitude: lng,
             weather,
