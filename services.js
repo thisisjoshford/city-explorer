@@ -1,4 +1,3 @@
-
 const getYelpData = async(lat, lng, request) => {
     const yelpData = await request
         .get(`https://api.yelp.com/v3/businesses/search?term=restaurants&latitude=${lat}&longitude=${lng}`)
