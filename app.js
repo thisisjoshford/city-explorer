@@ -18,7 +18,7 @@ app.get('/location', async(req, respond, next) => {
         lat = res.lat;
         lng = res.lon;
 
-        const portlandWeather = await services.getWeatherData(lat, lng, request);
+        const weather = await services.getWeatherData(lat, lng, request);
         const yelpData = await services.getYelpData(lat, lng, request);
         const eventData = await services.getEvents(lat, lng, request);
         const trailData = await services.getTrails(lat, lng, request);
@@ -27,7 +27,7 @@ app.get('/location', async(req, respond, next) => {
             formatted_query: res.display_name,
             latitude: lat,
             longitude: lng,
-            portlandWeather,
+            weather,
             yelpData,
             eventData,
             trailData

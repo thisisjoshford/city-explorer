@@ -76,7 +76,11 @@ const getWeatherData = async(lat, lng, request) => {
 
     return weather.body.daily.data.map(forecast => {
         return {
-            forecast: forecast.summary,
+            high: forecast.temperatureHigh,
+            low: forecast.temperatureLow,
+            precipitation: forecast.precipProbability,
+            icon: forecast.icon,
+            summary: forecast.summary,
             time: new Date(forecast.time * 1000),
         };
     });
